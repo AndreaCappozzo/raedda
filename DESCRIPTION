@@ -1,0 +1,19 @@
+Package: raedda
+Type: Package
+Title: Robust Adaptive Eigenvalue Decomposition Discriminant Analysis
+Version: 0.0.1
+Authors@R: c(person("Andrea", "Cappozzo", role = c("aut", "cre"), 
+                    email = "a.cappozzo@campus.unimib.it"),
+             person("Francesca", "Greselin", role = "ctb"),
+             person("Thomas Brendan", "Murphy", role = "ctb",
+                    comment = c(ORCID = "0000-0002-5668-7046")))
+Date: 2018-12-12
+Maintainer: Andrea Cappozzo <a.cappozzo@campus.unimib.it>
+Depends: R (>= 3.3)
+Description: Model-based framework for classification that jointly accounts for outliers, label noise and unobserved classes in the test set, employing MVN mixture model with Parsimonious structure. It is a robust generalization of the AMDA methodology (Bouveyron, 2014) that accounts for outliers and label noise detecting observations with the lowest contributions to the overall likelihood employing impartial trimming.
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    mclust (>= 5.4)
+RoxygenNote: 6.1.1

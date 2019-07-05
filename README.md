@@ -1,1 +1,20 @@
-# raedda
+<!-- badges: start -->
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
+
+raedda
+======
+
+Model-based framework for robust classification that jointly accounts
+for outliers, label noise and unobserved classes in the test set,
+employing a MVN mixture model with Parsimonious structure.
+
+Installation
+------------
+
+You can install the development version of raedda from github with:
+
+``` r
+devtools::install_github("AndreaCappozzo/raedda")
+```

@@ -1,0 +1,14 @@
+exportPattern("^[[:alpha:]]+")
+
+#export(RAEDDA_l, RAEDDA_d, RAEDDA_i, RAEDDA_t)
+#export(control_init, control_restr, control_EM)
+#export(RAEDDA_l, RAEDDA_d, RAEDDA_i, RAEDDA_t, RAEDDA_t_model, RAEDDA_transductive_model)
+
+S3method("print", "raedda_t")
+S3method("print", "redda")
+S3method("print", "raedda_d")
+S3method("print", "raedda_i")
+
+importFrom("utils", "setTxtProgressBar", "txtProgressBar", "flush.console")
+importFrom("utils", "packageVersion")
+importFrom("mclust", "mclust.options", "map", "unmap", "mstep", "estep", "cdens", "dens", "covw", "decomp2sigma", "nMclustParams", "mstepE", "mstepV", "mstepEII", "mstepVII", "mstepEEI", "mstepVEI", "mstepEVI", "mstepVVI", "mstepEEE","mstepEVE", "mstepVEE", "mstepVVE", "mstepEEV", "mstepVEV", "mstepEVV", "mstepVVV", "estepE", "estepV","estepEII", "estepVII", "estepEEI", "estepVEI", "estepEVI", "estepVVI", "estepEEE", "estepEVE", "estepVEE", "estepVVE", "estepEEV", "estepVEV", "estepEVV", "estepVVV", "cdensE", "cdensV", "cdensEII", "cdensVII", "cdensEEI", "cdensVEI", "cdensEVI", "cdensVVI", "cdensEEE", "cdensEVE", "cdensVEE", "cdensVVE", "cdensEEV", "cdensVEV", "cdensEVV", "cdensVVV")
