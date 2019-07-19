@@ -401,8 +401,12 @@ raedda_t_model <- function (X_train,
     res$train$cl_after_trimming <- cltrain_after_trimming
     res$train$obs_trimmed <- pos_trimmed_train
     res$train$alpha_train <- alpha_train
+    
+    fite_test <- do.call(mclust::estep, c(list(data = X_test),
+                                          fitm))
+    z_test <- fite_test$z
     cl <-
-      factor(sapply(map(z), function(i)
+      factor(sapply(map(z_test), function(i)
         classLabel[i]), levels = classLabel)
     pos_trimmed_test = NULL
     cltest_after_trimming = NULL
@@ -419,7 +423,7 @@ raedda_t_model <- function (X_train,
       cltest_after_trimming[pos_trimmed_test] <- "0"
     }
     res$test <- list()
-    res$test$z <- z
+    res$test$z <- z_test
     res$test$cl <- cl
     res$test$cl_after_trimming <- cltest_after_trimming
     res$test$obs_trimmed <- pos_trimmed_test
