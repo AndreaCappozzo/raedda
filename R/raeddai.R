@@ -280,7 +280,7 @@ raedda_i <- function (X_train,
     raedda_d(
       fit_learning = learning_phase,
       X_test = X_test,
-      model_sames = model_names_d,
+      model_names = model_names_d,
       G = G,
       alpha_discovery = alpha_discovery,
       restr_factor_d = restr_factor_d,
