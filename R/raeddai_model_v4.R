@@ -387,8 +387,13 @@ raedda_d_model <- function(fit_learning,
     } else {
       colnames(res$parameters$mean) <- classLabel
     }
+    
+    fite_test <- do.call(mclust::estep, c(list(data = X_test),
+                                          fitm))
+    z_test <- fite_test$z
+    
     cl <-
-      factor(sapply(mclust::map(z), function(i)
+      factor(sapply(mclust::map(z_test), function(i)
         classLabel[i]), levels = classLabel)
     pos_trimmed_test = NULL
     cltest_after_trimming = NULL
@@ -406,7 +411,7 @@ raedda_d_model <- function(fit_learning,
       fitm$n <- N_test_trim # used later in the computation of the TBIC
     }
     res$test_augmented <- list()
-    res$test_augmented$z <- z
+    res$test_augmented$z <- z_test
     res$test_augmented$cl <- cl
     res$test_augmented$cl_after_trimming <- cltest_after_trimming
     res$test_augmented$obs_trimmed <- pos_trimmed_test
