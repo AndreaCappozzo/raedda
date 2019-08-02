@@ -46,6 +46,10 @@ raedda_t <-
 
     X_train <- data.matrix(X_train)
     X_test <- data.matrix(X_test)
+    
+    if(is.factor(class_train)) { # I do this for avoiding problems in naming objects afterwards
+      class_train <- droplevels(class_train)
+    }
 
     if (is.null(model_names)) {
       if (ncol(X_train) == 1) {

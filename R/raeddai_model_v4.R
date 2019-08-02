@@ -303,7 +303,7 @@ raedda_d_model <- function(fit_learning,
             X = X_test_fit
           )
 
-        if (!any(is.na(fitm$parameters$variance$sigma))) {
+        if (!(any(is.na(fitm$parameters$variance$sigma))|any(is.na(fitm$parameters$variance$cholsigma)))) {
           # if there are NA something went wrong and I will not compute the constrained maximization
           if(fitm$modelName=="VVE"|fitm$modelName=="EVE"){
             fitm$X <- X_test_fit # I add the data on which the M-step is computed since I need them for the MM
@@ -319,14 +319,14 @@ raedda_d_model <- function(fit_learning,
         }
 
         ll <-
-          tryCatch(
+          suppressWarnings(tryCatch(
             sum(do.call(mclust::dens, c(
               list(data = X_test_fit, logarithm = TRUE), #value of the trimmed log-likelihood
               fitm
             ))),
             error = function(e)
               - Inf
-          )
+          ))
         ll <-
           ifelse(is.nan(ll) |
                    is.na(ll), -Inf, ll) #If llis NA or Nan it proceeds till the next estep and then the loop breaks

@@ -250,8 +250,9 @@ UPDATE_SIGMA <-
 
     if (modelName == "VVV") {
       eigenval <-
-        apply(sweep(W_extra, 3, n_extra, "/"), 3, function(x)
-          eigen(x, only.values = TRUE)$val) # Model \lambda_kD_kA_kD_k' Celeux Govaert
+        abs(apply(sweep(W_extra, 3, n_extra, "/"), 3, function(x)
+          eigen(x, only.values = TRUE)$val)) # Model \lambda_kD_kA_kD_k' Celeux Govaert
+      # NOTE: I add abs() for avoiding numerical problems with almost singular Sample cov matrices for the extra groups
       scale_extra <-
         tryCatch(
           expr = exp(1 / fitm$d * colSums(log(eigenval))),
@@ -281,11 +282,12 @@ UPDATE_SIGMA <-
     )
     if (modelName == "VVV") {
       fitm$parameters$variance$cholsigma <-
-        array(as.vector(apply(
+        tryCatch(array(as.vector(apply(
           fitm$parameters$variance$sigma,
           3, chol
         )),
-        dim = c(fitm$d, fitm$d, fitm$G))
+        dim = c(fitm$d, fitm$d, fitm$G)), error = function(e)
+          NA)
     }
     return(fitm$parameters$variance)
   }
