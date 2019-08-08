@@ -174,8 +174,13 @@ init_H_hidden_classes <-
           size = H * (d + 1),
           replace = FALSE
         ),
-        error = function(e)
-          1:N_test
+        error = function(e){
+          sample(
+            x = 1:N_test,
+            size = (d + 1), # if N_test is small, draw at least a sample of d+1 units
+            replace = FALSE
+          )
+        }
       )
 
     z_fake <-

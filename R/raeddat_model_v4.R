@@ -89,7 +89,7 @@ raedda_t_model <- function (X_train,
     }
 
   if (ncol(X_train) != ncol(X_test)) {
-    stop("Training and Test set must have the same number of variables")
+    stop("Training and Test set must have the same number of variables", call. = FALSE)
   }
   N_train <- nrow(X_train)
   N_test <- nrow(X_test)
@@ -109,7 +109,7 @@ raedda_t_model <- function (X_train,
   classLabel <- levels(class_train)
   if (G < G_train) {
     stop(
-      "The expected number of groups must be equal or greater than the number of observed classes"
+      "The expected number of groups must be equal or greater than the number of observed classes", call. = FALSE
     )
   }
 

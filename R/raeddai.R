@@ -8,12 +8,13 @@ raedda_l <-
            ...) {
     X_train <- data.matrix(X_train)
     
-    if(is.factor(class_train)) { # I do this for avoiding problems in naming objects afterwards
+    if (is.factor(class_train)) {
+      # I do this for avoiding problems in naming objects afterwards
       class_train <- droplevels(class_train)
     }
     
     if (is.null(model_names)) {
-      if(ncol(X_train)==1){
+      if (ncol(X_train) == 1) {
         model_names <- c("E", "V")
       } else {
         model_names <- mclust::mclust.options("emModelNames")
@@ -34,11 +35,11 @@ raedda_l <-
     for (model_name in model_names) {
       RES[[model_name]] <- list()
       RES[[model_name]] <- raedda_l_model(X_train,
-                                           class_train,
-                                           alpha_train,
-                                           model_name,
-                                           ctrl_init = ctrl_init,
-                                           ...)
+                                          class_train,
+                                          alpha_train,
+                                          model_name,
+                                          ctrl_init = ctrl_init,
+                                          ...)
       if (!is.na(RES[[model_name]]$bic)) {
         if (RES[[model_name]]$bic > bestBIC) {
           RES[["Best"]] <- RES[[model_name]]
@@ -132,12 +133,13 @@ raedda_d <- function(fit_learning,
     "EVV" = c("EVV", "VVV"),
     "VVV" = c("VVV")
   )
-
+  
   if (is.null(model_names)) {
     model_names <- modelscope_check
   } else if (any(!(model_names %in% modelscope_check))) {
     stop(
-      'One or more of the selected models cannot be estimated due to order incompatibility with the parsimonious structure selected in the learning phase'
+      'One or more of the selected models cannot be estimated due to order incompatibility with the parsimonious structure selected in the learning phase',
+      call. = FALSE
     )
   }
   G <- sort(G)
@@ -145,19 +147,18 @@ raedda_d <- function(fit_learning,
     G <-
       fit_learning$Best$G:(fit_learning$Best$G + 2) #if I do not specify a specific G, I will consider the G current labels of the learning phase, G+1 and G+2
   }
-
+  
   if (G[1] < fit_learning$Best$G) {
     stop(
       "The expected number of groups must be equal or greater than the number of groups in the learning phase"
     )
   }
-
-  if(is.null(restr_factor_d)){
-
+  
+  if (is.null(restr_factor_d)) {
     # the learning phase gives an idea of the magnitude of the eigenvalue-ratio
     # in the known groups, this information can be exploited
     # for avoiding setting in advance the value of restr_factor_d
-
+    
     eigenvalues_known_groups <-
       tryCatch(
         apply(fit_learning$Best$parameters$variance$sigma, 3, function(s2)
@@ -165,13 +166,13 @@ raedda_d <- function(fit_learning,
         error = function(e)
           1
       )
-
+    
     restr_factor_train <-
       abs(max(eigenvalues_known_groups) / min(eigenvalues_known_groups)) #in order to avoid spurious solution, I can set restr.factor to be no larger than the eigenvalue-ratio in the known groups. Abs is added for avoiding numerical problems
-
+    
     restr_factor_d <- restr_factor_train
   }
-
+  
   if (verbose) {
     cat("fitting Discovery Phase...\n")
     flush.console()
@@ -181,7 +182,7 @@ raedda_d <- function(fit_learning,
     on.exit(close(pbarL))
     ipbarL <- 0
   }
-
+  
   out <- list()
   bestBIC <- -Inf
   out[["Best"]] <- list()
@@ -201,7 +202,7 @@ raedda_d <- function(fit_learning,
           ctrl_restr = ctrl_restr,
           ctrl_init = ctrl_init
         )
-
+      
       if (!is.na(out[[model_name]][[as.character(g)]]$bic)) {
         if (out[[model_name]][[as.character(g)]]$bic > bestBIC) {
           out[["Best"]] <- out[[model_name]][[as.character(g)]]
@@ -236,7 +237,7 @@ raedda_d <- function(fit_learning,
         out[[fit_learning$Best$model_name]][[as.character(fit_learning$Best$G)]]
     }
   }
-
+  
   if (length(out$Best$G) == 0) {
     warning("none of the selected models could be fitted")
   } else if (verbose) {
@@ -269,7 +270,6 @@ raedda_i <- function (X_train,
                       verbose = interactive(),
                       ...)
 {
-
   learning_phase <-
     raedda_l(
       X_train = X_train,
@@ -280,7 +280,8 @@ raedda_i <- function (X_train,
       verbose = verbose,
       ...
     )
-  if (verbose) cat("\n")
+  if (verbose)
+    cat("\n")
   discovery_phase <-
     raedda_d(
       fit_learning = learning_phase,
@@ -295,7 +296,7 @@ raedda_i <- function (X_train,
       verbose = verbose,
       ...
     )
-
+  
   RES <- list()
   RES$learning_phase <- learning_phase
   RES$discovery_phase <- discovery_phase
