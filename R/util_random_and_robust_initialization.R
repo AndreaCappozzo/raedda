@@ -198,7 +198,10 @@ init_H_hidden_classes <-
                     data = X_test,
                     z = z_fake)
 
-
+    if(attributes(fitm)$returnCode<0){ # for error-handling: negative numbers mean smth went wrong
+      return(fitm)
+    }
+    
     #For extra_groups I manually update pro, mean and variance
     unif_sample <- runif(n = H)
     pro_extra <- unif_sample / sum(unif_sample) * H / G

@@ -150,7 +150,7 @@ raedda_d <- function(fit_learning,
   
   if (G[1] < fit_learning$Best$G) {
     stop(
-      "The expected number of groups must be equal or greater than the number of groups in the learning phase"
+      "The expected number of groups must be equal or greater than the number of groups in the learning phase", call. = FALSE
     )
   }
   

@@ -250,6 +250,7 @@ raedda_d_model <- function(fit_learning,
     # EM algorithm ------------------------------------------------------------
 
     llold <- -Inf
+    ll <- -Inf
     llstore <- rep(-Inf, 3) # for Aitken
     criterion <- TRUE
 
