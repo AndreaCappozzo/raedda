@@ -137,6 +137,8 @@ raedda_t_model <- function (X_train,
       mclust::mstep(modelName = model_name,
                     data = X_train,
                     z = ltrain) #the starting values for the EM algorithm are the parameters obtained using only the training set
+    fitm_TRAIN$X <- 
+      X_train # I add the data on which the M-step is computed since I need them for the MM
   }
   #the robust initialization gives an idea of the magnitude of the eigenvalue-ratio in the known groups, this information can be exploited for avoiding setting in advance the value of restr.factor
   eigenvalues_known_groups <-
@@ -147,7 +149,7 @@ raedda_t_model <- function (X_train,
         1
     )
   restr_factor_train <-
-    abs(max(eigenvalues_known_groups) / min(eigenvalues_known_groups)) #in order to avoid spurious solution, I can set restr.factor to be no larger than the eigenvalue-ratio in the known groups. Abs is added for avoiding numerical problems
+    abs(max(eigenvalues_known_groups) / min(eigenvalues_known_groups)) #in order to avoid spurious solution, I can set restr_factor to be no larger than the eigenvalue-ratio in the known groups. Abs is added for avoiding numerical problems
 
   # Initialization for the H hidden classes and EM algorithm ---------------------------------
 
@@ -205,14 +207,9 @@ raedda_t_model <- function (X_train,
     if (!any(is.na(fitm$parameters))) {
       # if there are NA or NULL something went wrong and I will not compute the constrained maximization
       if ((fitm$modelName == "VVE" |
-           fitm$modelName == "EVE")) {
-        if ((G != G_train)) {
+           fitm$modelName == "EVE") & (G != G_train)) {
           fitm$X <-
             Xtest_fit # I add the data on which the M-step is computed since I need them for the MM
-        } else {
-          fitm$X <-
-            Xtrain_fit # I add the data on which the M-step is computed since I need them for the MM
-        }
       }
       suppressWarnings(
         fitm <-
