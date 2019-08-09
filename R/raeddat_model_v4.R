@@ -191,8 +191,6 @@ raedda_t_model <- function (X_train,
       N_test_trim <- N_test - ceiling(N_test * alpha_test)
     } else {
       N_test_trim <- NULL
-      fitm$X <-
-        X_train # this is used in the initialization of raedda_transductive_model: for VVE and EVE models for which the constraint is not satisfied the data from which the M-step is computed are needed for the MM algorithm
     }
     Xtrain_fit <- X_train
     Xtest_fit <- X_test
@@ -207,9 +205,14 @@ raedda_t_model <- function (X_train,
     if (!any(is.na(fitm$parameters))) {
       # if there are NA or NULL something went wrong and I will not compute the constrained maximization
       if ((fitm$modelName == "VVE" |
-           fitm$modelName == "EVE") & (G != G_train)) {
-        fitm$X <-
-          Xtest_fit # I add the data on which the M-step is computed since I need them for the MM
+           fitm$modelName == "EVE")) {
+        if ((G != G_train)) {
+          fitm$X <-
+            Xtest_fit # I add the data on which the M-step is computed since I need them for the MM
+        } else {
+          fitm$X <-
+            Xtrain_fit # I add the data on which the M-step is computed since I need them for the MM
+        }
       }
       suppressWarnings(
         fitm <-
