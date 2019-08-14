@@ -233,7 +233,7 @@ raedda_d_model <- function(fit_learning,
     # For such groups I check if the eigenvalue-ratio is satisfied, if not I enforce
     # the constraints
 
-    if (!any(is.na(fitm$parameters))) {
+      if (!any(is.na(fitm$parameters$variance$sigma))) {
       # if there are NA or NULL something went wrong and I will not compute the constrained maximization
       if((fitm$modelName=="VVE"|fitm$modelName=="EVE") & (G != fit_learning$Best$G)){
         fitm$X <- X_test # I add the data on which the M-step is computed since I need them for the MM
@@ -417,7 +417,7 @@ raedda_d_model <- function(fit_learning,
     res$test_augmented$cl_after_trimming <- cltest_after_trimming
     res$test_augmented$obs_trimmed <- pos_trimmed_test
     res$test <- list()
-    res$test$z <- z[1:N_test_original, ]
+    res$test$z <- z_test[1:N_test_original, ]
     res$test$cl <- cl[1:N_test_original]
     res$test$cl_after_trimming <-
       cltest_after_trimming[1:N_test_original]
@@ -425,7 +425,7 @@ raedda_d_model <- function(fit_learning,
       pos_trimmed_test[pos_trimmed_test <= N_test_original]
     res$test$alpha_discovery <- alpha_discovery
     res$training_trimmed <- list()
-    res$training_trimmed$z <- z[-(1:N_test_original), ]
+    res$training_trimmed$z <- z_test[-(1:N_test_original), ]
     res$training_trimmed$cl <- cl[-(1:N_test_original)]
     res$training_trimmed$cl_after_trimming <-
       cltest_after_trimming[-(1:N_test_original)]

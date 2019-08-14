@@ -1,4 +1,49 @@
 
+available_models_discovery <- function(model_name) {
+  # given a model_name, returns the vector of all possible models for estimation in the discovery phase given the partial order structure of VSO 
+  switch(
+    model_name,
+    "E" = c("E", "V"),
+    "V" = "V",
+    "EII" = c(
+      "EII",
+      "VII",
+      "VEI",
+      "EVI",
+      "VVI",
+      "EVE",
+      "EEV",
+      "VEV",
+      "EVV",
+      "VVV"
+    ),
+    "VII" = c("VII", "VVI",
+              "VEV", "VVV"),
+    "EEI" = c(
+      "EEI",
+      "VEI",
+      "EVI",
+      "VVI",
+      "EVE",
+      "VEE",
+      "EEV",
+      "VEV",
+      "EVV",
+      "VVV"
+    ),
+    "VEI" = c("VEI", "VVI", "VEV", "VVV"),
+    "EVI" = c("EVI", "VVI", "EVE", "VVE", "EVV", "VVV"),
+    "VVI" =  c("VVI", "VVE", "VVV"),
+    "EEE" = c("EEE", "EVE", "VEE", "VVE", "EEV", "VEV", "EVV", "VVV"),
+    "EVE" = c("EVE", "EVV", "VVE", "VVV"),
+    "VEE" = c("VEE", "VEV", "VVE", "VVV"),
+    "VVE" = c("VVE", "VVV"),
+    "EEV" = c("EEV", "VEV", "EVV", "VVV"),
+    "VEV" = c("VEV", "VVV"),
+    "EVV" = c("EVV", "VVV"),
+    "VVV" = c("VVV")
+  )
+}
 
 INITIALIZE_SIGMA <-
   function(object, fitm) {

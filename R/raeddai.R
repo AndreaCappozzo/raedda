@@ -91,49 +91,9 @@ raedda_d <- function(fit_learning,
   #check if the selected model can be estimated according to the partial ordering defined in the igraph
   #NOTE: for the **I models some structures are redundant and henceforth I do not consider them.
   #For example if we learnt EEI the models EEI and EEE are equivalent and need not be estimated
-  modelscope_check <- switch(
-    fit_learning$Best$model_name,
-    "E" = c("E", "V"),
-    "V" = "V",
-    "EII" = c(
-      "EII",
-      "VII",
-      "VEI",
-      "EVI",
-      "VVI",
-      "EVE",
-      "EEV",
-      "VEV",
-      "EVV",
-      "VVV"
-    ),
-    "VII" = c("VII", "VVI",
-              "VEV", "VVV"),
-    "EEI" = c(
-      "EEI",
-      "VEI",
-      "EVI",
-      "VVI",
-      "EVE",
-      "VEE",
-      "EEV",
-      "VEV",
-      "EVV",
-      "VVV"
-    ),
-    "VEI" = c("VEI", "VVI", "VEV", "VVV"),
-    "EVI" = c("EVI", "VVI", "EVE", "VVE", "EVV", "VVV"),
-    "VVI" =  c("VVI", "VVE", "VVV"),
-    "EEE" = c("EEE", "EVE", "VEE", "VVE", "EEV", "VEV", "EVV", "VVV"),
-    "EVE" = c("EVE", "EVV", "VVE", "VVV"),
-    "VEE" = c("VEE", "VEV", "VVE", "VVV"),
-    "VVE" = c("VVE", "VVV"),
-    "EEV" = c("EEV", "VEV", "EVV", "VVV"),
-    "VEV" = c("VEV", "VVV"),
-    "EVV" = c("EVV", "VVV"),
-    "VVV" = c("VVV")
-  )
   
+  modelscope_check <- available_models_discovery(model_name = fit_learning$Best$model_name)
+    
   if (is.null(model_names)) {
     model_names <- modelscope_check
   } else if (any(!(model_names %in% modelscope_check))) {

@@ -204,7 +204,7 @@ raedda_t_model <- function (X_train,
 
     # Constrained maximization needs to be enforced ------------------------------------
 
-    if (!any(is.na(fitm$parameters))) {
+    if (!any(is.na(fitm$parameters$variance$sigma))) {
       # if there are NA or NULL something went wrong and I will not compute the constrained maximization
       if ((fitm$modelName == "VVE" |
            fitm$modelName == "EVE") & (G != G_train)) {
