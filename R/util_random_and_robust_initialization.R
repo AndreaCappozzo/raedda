@@ -185,8 +185,12 @@ init_H_hidden_classes <-
 
     z_fake <-
       matrix(0, nrow = N_test, ncol = G) # construct z_fake cos I need to get the same structure of model_name in the m-step
-    z_fake[matrix(c(J_h_ind, rep(extra_groups, each = length(J_h_ind) /
-                                   H)), ncol = 2)] <-
+    z_fake[matrix(c(J_h_ind, round(seq.int(
+      from = extra_groups[1],
+      to = extra_groups[length(extra_groups)],
+      length.out = length(J_h_ind)
+    ),
+    0)), ncol = 2)] <-
       1 # out of the H(p+1) units I have randomly chosen from Y, H goes to the first hidden group, another H goes for the second hidden group etc...
     # this is a workaround in order to make it work regardless of the number of obs J_hidden extracted and number of hidden groups H
     z_fake[-J_h_ind, index] <-
