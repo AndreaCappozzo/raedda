@@ -554,12 +554,15 @@ restr_2_VV_ <-
     #cholsigma for VVV
     if (fitm$modelName == "VVV") {
       fitm$parameters$variance$cholsigma <-
-        array(as.vector(apply(
-          fitm$parameters$variance$sigma,
-          3, chol
-        )),
-        dim = c(fitm$d, fitm$d, fitm$G))
+        tryCatch(
+          array(as.vector(
+            apply(fitm$parameters$variance$sigma,
+                  3, chol)
+          ),
+          dim = c(fitm$d, fitm$d, fitm$G)),
+          error = function(e)
+            NA
+        )
     }
     fitm
   }
-
