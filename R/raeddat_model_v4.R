@@ -241,8 +241,7 @@ raedda_t_model <- function (X_train,
           }
         ) #expectation step, it remains the same
       emptyz <- TRUE
-      if (all(!is.na(fite$z)))
-      {
+      if ((all(!is.na(fite$z))) & (all(colSums(fite$z)>.Machine$double.eps))) { # I check that no error was present in the E-step AND that no cond probabililty for any group is too small
         emptyz <- FALSE
         z <- fite$z
         z_fit <- fite$z
@@ -281,9 +280,11 @@ raedda_t_model <- function (X_train,
         Xall <- rbind(Xtrain_fit, Xtest_fit)
         zall <- rbind(ltrain_fit, z_fit)
         fitm <-
-          mclust::mstep(modelName = model_name,
-                        data = Xall,
-                        z = zall)
+            mclust::mstep(
+              modelName = model_name,
+              data = Xall,
+              z = zall
+            )
         if (!any(is.na(fitm$parameters$variance$sigma))) {
           # if there are NA something went wrong and I will not compute the constrained maximization
           if (fitm$modelName == "VVE" | fitm$modelName == "EVE") {
@@ -318,8 +319,7 @@ raedda_t_model <- function (X_train,
         }
         criterion <- (criterion) & (iter < EM_max_iter)
         llold <- ll
-      }
-      else {
+      } else {
         criterion <- FALSE
       }
     }
