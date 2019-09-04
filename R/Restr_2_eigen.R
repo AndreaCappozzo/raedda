@@ -320,7 +320,7 @@ restr_2_EV_ <- function(fitm, restr_factor, extra_groups,
       autovalues = eigenvalues,
       ni.ini = colSums(fitm$z[,extra_groups, drop=FALSE]),
       restr.fact = restr_factor,
-      zero.tol = .Machine$double.eps
+      zero.tol = .Machine$double.xmin
     )
 
     #2nd step: .restr2_deter
@@ -331,7 +331,7 @@ restr_2_EV_ <- function(fitm, restr_factor, extra_groups,
         #ni.ini = rep(1, fitm$G),
         restr.fact = 1,
         #I force the determinants to be equal
-        zero.tol = .Machine$double.eps
+        zero.tol = .Machine$double.xmin
       )
     } else { # Inductive approach
 
@@ -405,7 +405,7 @@ restr_2_VE_ <- function(fitm, restr_factor, extra_groups, ctrl_restr) {
         autovalues = eigenvalues,
         ni.ini = colSums(fitm$z[, extra_groups, drop=FALSE]), # the groups size
         restr.fact = restr_factor,
-        zero.tol = .Machine$double.eps
+        zero.tol = .Machine$double.xmin
       )
 
     scale_0 <- scale_RESTR
