@@ -48,7 +48,7 @@ n_raedda_t_params <- function(modelName, d, G, restr_factor) {
   return(alpha + gamma + (delta - 1) * (1 - 1 / restr_factor) + 1) # Cerioli et al 2018
 }
 
-n_raedda_d_params <- function(modelName, d, H, restr_factor_d) {
+n_raedda_d_params <- function(modelName, d, H, G, restr_factor_d) {
   # Inductive approach: gives the number of estimated parameters for H extra classes
   # considering the parameterizations
   # of the Gaussian mixture model that are used in MCLUST.
@@ -60,7 +60,7 @@ n_raedda_d_params <- function(modelName, d, H, restr_factor_d) {
   # gamma= #param related to orthogonal rotation
   # delta= #param related to eigenvalues
 
-  alpha <- H * d + H
+  alpha <- H * d + G-1 # correct as per reviewer comment 
 
   # Models that require no extra variance param for the extra classes
   if (modelName %in% c("E", "EII", "EEI", "EEE")) {
@@ -128,6 +128,7 @@ robust_bic_raedda_d <-
             n,
             d,
             H,
+            G,
             restr_factor_d,
             # This function computes the BIC penalizing the ll according to how many parameters
             # are estimated in the discovery phase and according to restr_factor_d
@@ -137,6 +138,7 @@ robust_bic_raedda_d <-
         modelName = modelName,
         d = d,
         H = H,
+        G=G,
         restr_factor_d = restr_factor_d
       )
     2 * loglik - nparams * log(n)

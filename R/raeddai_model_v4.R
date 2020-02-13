@@ -438,6 +438,7 @@ raedda_d_model <- function(fit_learning,
         n = fitm$n,
         d = fitm$d,
         H = fitm$G - fit_learning$Best$G,
+        G=fitm$G,
         restr_factor_d = restr_factor_d
       )
     res$ll <- ll
