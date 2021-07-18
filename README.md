@@ -10,6 +10,8 @@ Model-based framework for robust classification that jointly accounts
 for outliers, label noise and unobserved classes in the test set,
 employing a MVN mixture model with Parsimonious structure.
 
+This repository is associated with the paper Cappozzo, Greselin, Murphy (2020) *Anomaly and Novelty detection for robust semi-supervised learning.* [https://doi.org/10.1007/s11222-020-09959-1](https://doi.org/10.1007/s11222-020-09959-1)
+
 Installation
 ------------
 
